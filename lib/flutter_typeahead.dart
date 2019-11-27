@@ -291,8 +291,8 @@ class TypeAheadFormField<T> extends FormField<String> {
             builder: (FormFieldState<String> field) {
               final _TypeAheadFormFieldState state = field;
 
-              ValueChanged<String> origOnChange = textFieldConfiguration.onChanged;
-              ValueChanged<String> newOnChange = (v) {
+              ValueChanged origOnChange = textFieldConfiguration.onChanged;
+              ValueChanged newOnChange = (v) {
                 if (origOnChange != null) {
                   origOnChange(v);
                 }
