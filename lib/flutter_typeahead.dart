@@ -291,13 +291,6 @@ class TypeAheadFormField<T> extends FormField<String> {
             builder: (FormFieldState<String> field) {
               final _TypeAheadFormFieldState state = field;
 
-              ValueChanged origOnChange = textFieldConfiguration.onChanged;
-              ValueChanged newOnChange = (v) {
-                if (origOnChange != null) {
-                  origOnChange(v);
-                }
-                state.didChange(v);
-              };
               return TypeAheadField(
                 getImmediateSuggestions: getImmediateSuggestions,
                 transitionBuilder: transitionBuilder,
@@ -309,7 +302,12 @@ class TypeAheadFormField<T> extends FormField<String> {
                 textFieldConfiguration: textFieldConfiguration.copyWith(
                   decoration: textFieldConfiguration.decoration
                       .copyWith(errorText: state.errorText),
-                  onChanged: newOnChange,
+                  onChanged: (v) {
+                    if (textFieldConfiguration.onChanged != null) {
+                      textFieldConfiguration.onChanged(v);
+                    }
+                    state.didChange(v);
+                  },
                   controller: state._effectiveController,
                 ),
                 suggestionsBoxVerticalOffset: suggestionsBoxVerticalOffset,
